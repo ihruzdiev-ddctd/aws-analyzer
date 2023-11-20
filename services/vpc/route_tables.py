@@ -1,7 +1,10 @@
+"""Module used for outputing unused route table's information"""
 from boto3 import client
 
 
 def get_unused_route_tables() -> None:
+    "Outputs unused route table's id"
+
     # Create a Boto3 client for the EC2 service
     ec2_client = client("ec2")
 

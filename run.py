@@ -1,3 +1,4 @@
+"""Outputs unused EC2 and VPC resource's information"""
 from services.ec2 import elb, ec2, security_groups, snapshots
 from services.vpc import acl, igw, subnets, nat, route_tables
 
@@ -6,6 +7,8 @@ EC2_THRESHOLD = 90
 
 
 def check_vpc() -> None:
+    "Outputs VPC resource's informantion"
+
     acl.get_unused_acls()
     igw.get_unused_igws()
     subnets.get_unused_subnets()
@@ -14,6 +17,8 @@ def check_vpc() -> None:
 
 
 def check_ec2() -> None:
+    "Outputs EC2 resource's informantion"
+
     elb.get_unused_lbs()
     snapshots.get_old_snapshots(SNAPSHOT_THRESHOLD)
     ec2.get_unused_instances(EC2_THRESHOLD)

@@ -1,7 +1,15 @@
+"""Module used for outputing unused subnet's information"""
 from boto3 import client
 
 
 def get_subnet_name(subnet: list) -> str:
+    """
+    Returns subnet name if present
+
+    Returns:
+        str: Subnet name
+    """
+
     if "Tags" in subnet:
         for tag in subnet["Tags"]:
             if tag["Key"] == "Name":
@@ -10,6 +18,8 @@ def get_subnet_name(subnet: list) -> str:
 
 
 def get_unused_subnets() -> None:
+    "Outputs unused subnet's id and name"
+
     ec2_client = client("ec2")
 
     response = ec2_client.describe_subnets()

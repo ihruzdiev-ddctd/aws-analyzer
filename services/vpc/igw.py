@@ -1,7 +1,10 @@
+"""Module used for outputing unused IGW's information"""
 from boto3 import client
 
 
 def get_unused_igws() -> None:
+    "Outputs unused IGW's id and correlating VPC's id"
+
     # Create a Boto3 client for EC2 service
     ec2_client = client("ec2")
 

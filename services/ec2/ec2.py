@@ -1,3 +1,4 @@
+"""Module responsible for outputing unused EC2 Instances"""
 from datetime import datetime, timedelta
 from boto3 import client
 
@@ -33,7 +34,7 @@ def get_unused_instances(unused_threshold: int) -> None:
         unused_threshold (int): Number of days to consider instance as unused
     """
 
-    # Create a Boto3 EC2 client
+    # Create a Boto3 client for Amazon EC2
     ec2_client = client("ec2")
 
     # Retrieve information about all EC2 instances

@@ -1,3 +1,4 @@
+"""Module responsible for outputing old snapshot id's and volume size"""
 from datetime import datetime, timedelta
 from boto3 import client
 

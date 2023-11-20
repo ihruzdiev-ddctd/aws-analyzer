@@ -1,7 +1,11 @@
+"""Module responsible for outputing unused security group's id and name"""
 from boto3 import client
 
 
 def get_unused_security_groups() -> None:
+    "Outputs unused security group's id and name"
+
+    # Create a Boto3 client for Amazon EC2
     ec2_client = client("ec2")
 
     response = ec2_client.describe_security_groups()

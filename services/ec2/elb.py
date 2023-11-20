@@ -1,8 +1,14 @@
+"""Module responsible for outputing unused load balancers"""
 from boto3 import client
 
 
 def get_unused_lbs() -> None:
+    "Outputs unused classic and elastic load balancers"
+
+    # Create a Boto3 client for Amazon ELBv2
     elbv2_client = client("elbv2")
+
+    # Create a Boto3 client for Amazon ELB
     elb_client = client("elb")
 
     # Find unused ALBs and NLBs
