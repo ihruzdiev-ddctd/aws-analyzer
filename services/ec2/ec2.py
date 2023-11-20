@@ -56,11 +56,7 @@ def get_unused_instances(unused_threshold: int) -> None:
                 instance["UsageOperationUpdateTime"], unused_threshold
             ):
                 unused_instances.append(
-                    {
-                        "id": instance["InstanceId"],
-                        "state": instance["State"]["Name"],
-                        "name": instance_name,
-                    }
+                    {"id": instance["InstanceId"], "name": instance_name}
                 )
 
     print("\nUnused EC2 Instances:")
