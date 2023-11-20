@@ -1,9 +1,12 @@
 """Module used for outputing unused IGW's information"""
 from boto3 import client
+from helpers.url_generator import generate_aws_uri
 
 
 def get_unused_igws() -> None:
-    "Outputs unused IGW's id and correlating VPC's id"
+    """
+    Outputs unused IGW's id and correlating VPC's id
+    """
 
     # Create a Boto3 client for EC2 service
     ec2_client = client("ec2")
@@ -28,4 +31,10 @@ def get_unused_igws() -> None:
             # Iterate over each unused IGW
             for igw in igw_response["InternetGateways"]:
                 igw_id = igw["InternetGatewayId"]
-                print(f"IGW ID for VPC {vpc_id}: {igw_id}")
+                igw_link = generate_aws_uri(
+                    region=ec2_client.meta.region_name,
+                    service="vpc",
+                    query_params="InternetGateway:internetGatewayId",
+                    resource_id=igw_id,
+                )
+                print(f"IGW ID for VPC {vpc_id}: {igw_link}")

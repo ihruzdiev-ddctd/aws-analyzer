@@ -1,9 +1,12 @@
 """Module responsible for outputing unused security group's id and name"""
 from boto3 import client
+from helpers.url_generator import generate_aws_uri
 
 
 def get_unused_security_groups() -> None:
-    "Outputs unused security group's id and name"
+    """
+    Outputs unused security group's id and name
+    """
 
     # Create a Boto3 client for Amazon EC2
     ec2_client = client("ec2")
@@ -21,15 +24,13 @@ def get_unused_security_groups() -> None:
         response = ec2_client.describe_network_interfaces(
             Filters=[{"Name": "group-id", "Values": [group_id]}]
         )
-        network_interfaces = response["NetworkInterfaces"]
 
-        if not network_interfaces:
+        if not response['NetworkInterfaces']:
             response = ec2_client.describe_instances(
                 Filters=[{"Name": "instance.group-id", "Values": [group_id]}]
             )
-            instances = response["Reservations"]
 
-            if not instances:
+            if not response["Reservations"]:
                 unused_security_groups.append({"id": group_id, "name": group_name})
 
     # Print the unused Security Groups
@@ -37,4 +38,10 @@ def get_unused_security_groups() -> None:
     print("---------------------------")
     for sg in unused_security_groups:
         sg_id = sg["id"] + "\t\t\t" if len(sg["id"]) <= 15 else sg["id"] + "\t"
-        print(f"ID: {sg_id}Name: {sg['name']}")
+        sg_link = generate_aws_uri(
+            region=ec2_client.meta.region_name,
+            service="vpc",
+            query_params="SecurityGroup:groupId",
+            resource_id=sg_id,
+        )
+        print(f"ID: {sg_link}Name: {sg['name']}")

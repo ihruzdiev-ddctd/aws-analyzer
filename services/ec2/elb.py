@@ -1,9 +1,12 @@
 """Module responsible for outputing unused load balancers"""
 from boto3 import client
+from helpers.url_generator import generate_aws_uri
 
 
 def get_unused_lbs() -> None:
-    "Outputs unused classic and elastic load balancers"
+    """
+    Outputs unused classic and elastic load balancers
+    """
 
     # Create a Boto3 client for Amazon ELBv2
     elbv2_client = client("elbv2")
@@ -38,4 +41,10 @@ def get_unused_lbs() -> None:
     print("\nUnused CLBs:")
     print("---------------------------")
     for lb_name in unused_elb_load_balancers:
-        print(f"CLB Name: {lb_name}")
+        lb_link = generate_aws_uri(
+            region=elb_client.meta.region_name,
+            service="ec2",
+            query_params="LoadBalancer:loadBalancerArn",
+            resource_id=lb_name,
+        )
+        print(f"CLB Name: {lb_link}")

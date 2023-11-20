@@ -1,6 +1,7 @@
 """Module responsible for outputing old snapshot id's and volume size"""
 from datetime import datetime, timedelta
 from boto3 import client
+from helpers.url_generator import generate_aws_uri
 
 
 def get_old_snapshots(old_threshold: int):
@@ -26,11 +27,17 @@ def get_old_snapshots(old_threshold: int):
             if len(snapshot["SnapshotId"]) <= 15
             else snapshot["SnapshotId"] + "\t"
         )
+        snapshot_link = generate_aws_uri(
+            region=ec2_client.meta.region_name,
+            service="ec2",
+            query_params="SnapshotDetails:snapshotId",
+            resource_id=snapshot_id,
+        )
+
         start_time = snapshot["StartTime"]
 
-        # Calculate the age of the snapshot
-        age = datetime.now(start_time.tzinfo) - start_time
-
         # Check if the age of the snapshot is more than one year
-        if age > timedelta(days=old_threshold):
-            print(f"Snapshot ID: {snapshot_id}Volume size: {snapshot['VolumeSize']} GB")
+        if datetime.now(start_time.tzinfo) - start_time > timedelta(days=old_threshold):
+            print(
+                f"Snapshot ID: {snapshot_link}Volume size: {snapshot['VolumeSize']} GB"
+            )

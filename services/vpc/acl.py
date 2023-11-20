@@ -1,9 +1,12 @@
 """Module used for outputing unused ACL's information"""
 from boto3 import client
+from helpers.url_generator import generate_aws_uri
 
 
 def get_unused_acls() -> None:
-    "Outputs unused ACL's id and correlating VPC's id"
+    """
+    Outputs unused ACL's id and correlating VPC's id
+    """
 
     # Create a Boto3 client for Amazon EC2
     ec2_client = client("ec2")
@@ -24,6 +27,11 @@ def get_unused_acls() -> None:
 
         # Check if each network ACL is associated with any subnets
         for network_acl in network_acls:
-            subnet_associations = network_acl["Associations"]
-            if not subnet_associations:
-                print(f"ACL ID in VPC {vpc_id}: {network_acl['NetworkAclId']}")
+            acl_link = generate_aws_uri(
+                region=ec2_client.meta.region_name,
+                service="vpc",
+                query_params="NetworkAclDetails:networkAclId",
+                resource_id=network_acl["NetworkAclId"],
+            )
+            if not network_acl["Associations"]:
+                print(f"ACL ID in VPC {vpc_id}: {acl_link}")

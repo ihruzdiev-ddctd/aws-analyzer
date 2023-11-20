@@ -1,6 +1,7 @@
 """Module responsible for outputing unused EC2 Instances"""
 from datetime import datetime, timedelta
 from boto3 import client
+from helpers.url_generator import generate_aws_uri
 
 
 def check_date_range(date: datetime, days: int) -> bool:
@@ -68,4 +69,10 @@ def get_unused_instances(unused_threshold: int) -> None:
             if len(instance["id"]) <= 15
             else instance["id"] + "\t"
         )
-        print(f"Instance ID: {instance_id}Instance name: {instance['name']}")
+        instance_link = generate_aws_uri(
+            region=ec2_client.meta.region_name,
+            service="ec2",
+            query_params="InstanceDetails:instanceId",
+            resource_id=instance_id,
+        )
+        print(f"Instance ID: {instance_link}Instance name: {instance['name']}")

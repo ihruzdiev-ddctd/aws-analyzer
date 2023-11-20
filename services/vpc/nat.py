@@ -1,9 +1,12 @@
 """Module used for outputing unused NAT Gateway's information"""
 from boto3 import client
+from helpers.url_generator import generate_aws_uri
 
 
 def get_unused_nat_gateways() -> None:
-    "Outputs unused NAT Gateway's id"
+    """
+    Outputs unused NAT Gateway's id
+    """
 
     # Create a Boto3 client for the EC2 service
     ec2_client = client("ec2")
@@ -33,4 +36,11 @@ def get_unused_nat_gateways() -> None:
     print("\nUnused NAT Gateways:")
     print("---------------------------")
     for nat_gateway in unused_nat_gateways:
-        print(f"NAT Gateway ID:, {nat_gateway['NatGatewayId']}")
+        nat_id = nat_gateway["NatGatewayId"]
+        nat_link = generate_aws_uri(
+            region=ec2_client.meta.region_name,
+            service="vpc",
+            query_params="NatGatewayDetails:natGatewayId",
+            resource_id=nat_id,
+        )
+        print(f"NAT Gateway ID:, {nat_link}")
