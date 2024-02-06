@@ -1,0 +1,14 @@
+name: Version tests
+
+on:
+  push:
+    branches:
+      - "v[0-9]*.*"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        

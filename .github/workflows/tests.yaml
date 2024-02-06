@@ -1,4 +1,4 @@
-name: Glob tests
+name: Release tests
 
 on:
   push:
