@@ -1,11 +1,9 @@
-name: Glob tests
+name: Version tests
 
 on:
   push:
     branches:
-      - "*"
-      - "!v[0-9]*.*"
-      - "!master"
+      - "v[0-9]*.*"
 
 jobs:
   test:
