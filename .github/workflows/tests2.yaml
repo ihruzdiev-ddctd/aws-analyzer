@@ -2,8 +2,8 @@ name: Version tests
 
 on:
   push:
-    branches:
-      - "v*"
+    tags:
+      - '*'
 
 jobs:
   test:
