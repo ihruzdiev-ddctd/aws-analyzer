@@ -3,7 +3,7 @@ name: Version tests
 on:
   push:
     branches:
-      - "v[0-9]*.*"
+      - "v?.*"
 
 jobs:
   test:
