@@ -20,13 +20,13 @@ pip install -r requiremets
 
 Configure AWS credentials:
 
-- Make sure you have AWS CLI installed.
-- Run aws configure and enter your AWS access key, secret key, region, and output format.
+- Make sure you have AWS CLI installed
+- Run aws configure and enter your AWS access key, secret key, region, and output format
 
 Adjust script settings (if necessary):
 
-- Open run.py.
-- Modify the configuration parameters such as SNAPSHOT_THRESHOLD to set the threshold for considering a resource as unused.
+- Open run.py
+- Modify the configuration parameters such as SNAPSHOT_THRESHOLD to set the threshold for considering a resource as unused
 
 ## Usage
 
