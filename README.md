@@ -4,6 +4,7 @@
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/downloads/)
 
 ## Overview
+
 This Python script uses the boto3 library to identify and display unused AWS VPC and EC2 resources. It helps you manage and optimize your AWS infrastructure by detecting resources that might no longer be in use.
 
 ## Prerequisites
