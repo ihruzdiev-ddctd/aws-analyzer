@@ -12,7 +12,12 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
       - uses: phish108/autotag-action@v1.1.55
+        id: tagger
         with:
           github-token: ${{ secrets.GITOPS_GH_TOKEN }}
           with-v: "true"
-          bump: patch
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITOPS_GH_TOKEN }}"
+          prerelease: false
+          automatic_release_tag: "${{ steps.tagger.outputs.new-tag }}"
